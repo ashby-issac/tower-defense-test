@@ -43,17 +43,18 @@ public class Enemy : MonoBehaviour, IDamageable
         houseTransform = GameManager.Instance.HouseTransform;
 
         enemyObjectPool = ServiceLocator.Get<EnemyObjectPool>();
+
     }
 
     void Update()
     {
-        if (GameManager.Instance.IsGameOver)
+        if (GameManager.Instance.IsGameOver && agent.isActiveAndEnabled)
         {
             agent.ResetPath();
             return;
         }
 
-        if (agent != null)
+        if (agent != null && agent.isActiveAndEnabled && gameObject.activeInHierarchy)
         {
             agent.SetDestination(houseTransform.position);
             if (agent.hasPath && agent.remainingDistance < closeDist)

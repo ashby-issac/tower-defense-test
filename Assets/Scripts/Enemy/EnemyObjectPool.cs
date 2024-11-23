@@ -16,6 +16,8 @@ public class EnemyObjectPool : MonoBehaviour
     private int activeEnemyCount = 0;
     public int ActiveEnemyCount => activeEnemyCount;
 
+    public int totalEnemies;
+
     private int randomEnemyPoolIndex;
     private Transform enemyObjectPoolParent;
 
@@ -51,16 +53,17 @@ public class EnemyObjectPool : MonoBehaviour
         if (enemyPoolQueue.Count > 0)
         {
             var dequeuedEnemy = DequeueEnemy();
-            dequeuedEnemy.gameObject.SetActive(true);
             activeEnemyInstance = dequeuedEnemy.gameObject;
         }
         else
         {
             RandomizeEnemy();
             activeEnemyInstance = Instantiate(enemyPools[randomEnemyPoolIndex].prefab.gameObject);
+            activeEnemyInstance.SetActive(false);
         }
 
         activeEnemyCount++;
+        totalEnemies++;
         SetPositionAndRotation(enemyStartPoint, activeEnemyInstance);
     }
 
@@ -68,7 +71,9 @@ public class EnemyObjectPool : MonoBehaviour
     {
         activeEnemyInstance.transform.position = enemyStartPoint.position;
         activeEnemyInstance.transform.rotation = enemyStartPoint.rotation;
-        activeEnemyInstance.transform.parent = enemyObjectPoolParent;
+        //activeEnemyInstance.transform.parent = enemyObjectPoolParent;
+
+        activeEnemyInstance.SetActive(true);
     }
 
     public void EnqueueEnemy(GameObject enemyInstance)

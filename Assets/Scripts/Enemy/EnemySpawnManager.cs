@@ -15,7 +15,7 @@ public class WaveData
 public class EnemySpawnManager : MonoBehaviour
 {
     [SerializeField] private List<WaveData> waveDatas;
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform[] spawnPoints;
 
     [HideInInspector] public bool HasFinishedSpawning = false;
 
@@ -50,13 +50,16 @@ public class EnemySpawnManager : MonoBehaviour
 
         while (true)
         {
-            if (wavesControllerIndex > waveDatas.Count - 1) { break; }
+            if (wavesControllerIndex > waveDatas.Count - 1) 
+            { 
+                break; 
+            }
 
             if (currentWaveNumber < waveDatas[wavesControllerIndex].numberOfWavesInCurrentWave)
             {
                 for (int j = 0; j < waveDatas[wavesControllerIndex].totalNumberOfEnemies; j++)
                 {
-                    enemyObjectPool.EnableEnemyInPool(spawnPoint);
+                    enemyObjectPool.EnableEnemyInPool(spawnPoints[Random.Range(0, spawnPoints.Length)]);
                     yield return new WaitForSeconds(waveDatas[wavesControllerIndex].enemySpawnDelay);
                 }
                 yield return new WaitForSeconds(waveDatas[wavesControllerIndex].wavesDelay);

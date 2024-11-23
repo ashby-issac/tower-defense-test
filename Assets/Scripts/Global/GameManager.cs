@@ -95,6 +95,10 @@ public class GameManager : MonoBehaviour
     public void OnEnemyDefeated(float amount)
     {
         currencySystem.AddCoins((int)amount);
+        if (EnemySpawnManager.HasFinishedSpawning)
+        {
+            Debug.Log($" {EnemyObjectPool.totalEnemies} ");
+        }
         if (EnemySpawnManager.HasFinishedSpawning && EnemyObjectPool.ActiveEnemyCount < 1)
         {
             OnGameOver();
